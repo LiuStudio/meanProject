@@ -1,0 +1,17 @@
+{
+  "name": "app_client",
+  "homepage": "https://github.com/LiuStudio/meanProject",
+  "authors": [
+    "Bin Liu <bin.w.liu@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
