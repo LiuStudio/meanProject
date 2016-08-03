@@ -1,4 +1,4 @@
-var myApp = augular.module('MeanApp', ['ui.router']);
+var myApp = angular.module('MeanApp', ['ui.router']);
 
 myApp.config(function($stateProvider, $urlRouterProvider){
 	$urlRouterProvider.otherwise('/');
@@ -7,14 +7,14 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 			url  : '/',
 			views:{
 				'header' : {
-					templateUrl : 'views/header.html'
+					templateUrl : 'view/header.html'
 				},
 				'content':{
-					templateUrl : "views/home.html",
+					templateUrl : "view/home.html",
 					controller  : "HomeController"
 				},
 				'footer' :{
-					templateUrl : "views/footer.html"
+					templateUrl : "view/footer.html"
 				}
 			}
 		})
@@ -23,7 +23,7 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 			url  : 'aboutus',
 			views:{
 				'content@':{
-					templateUrl : "views/aboutus.html",
+					templateUrl : "view/aboutus.html",
 					controller  : "AboutUsController"
 				}
 			}
@@ -32,7 +32,7 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 			url  : 'login',
 			views:{
 				'content@':{
-					templateUrl : "views/login.html",
+					templateUrl : "view/login.html",
 					controller  : "LoginController"
 				}
 			}
@@ -42,7 +42,7 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 			url  : 'signup',
 			views:{
 				'content@':{
-					templateUrl : "views/signup.html",
+					templateUrl : "view/signup.html",
 					controller  : "SignupController"
 				}
 			}
@@ -51,7 +51,7 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 			url  : 'profile',
 			views:{
 				'content@':{
-					templateUrl : "views/profile.html",
+					templateUrl : "view/profile.html",
 					controller  : "ProfileController"
 				}
 			}

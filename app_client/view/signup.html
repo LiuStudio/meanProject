@@ -1,3 +1,58 @@
-<div>
-	<h1>This is a placeholder for signup page</h1>
-</div>
+
+<div class="container">    
+          
+	   <div class="panel panel-info">
+	        <div class="panel-heading">
+	            <div class="panel-title">Create Your Account</div>
+	        </div>  
+	        <div class="panel-body" >
+	            <form name="signupform" ng-submit = "register()" class="form-horizontal" role="form" action = "" method="POST">
+
+	                <div id="signupalert" style="display:none" class="alert alert-danger">
+	                    <p>Error:</p>
+	                    <span></span>
+	                </div>
+	                
+	                <!-- First Name -->
+	                <div class="form-group" ng-class="{ 'has-error': signupform.firstName.$dirty && signupform.firstName.$error.required}" >
+	                    <label for="firstname" class="col-md-3 control-label">First Name</label>
+	                    <div class="col-md-9">
+	                        <input type="text" class="form-control" name="firstName" placeholder="First Name" ng-model="user.firstName">
+	                    </div>
+	                </div>
+	                <!-- Last Name -->
+	                <div class="form-group" ng-class="{ 'has-error': signupform.lastName.$dirty && signupform.lastName.$error.required}">
+	                    <label for="lastname" class="col-md-3 control-label">Last Name</label>
+	                    <div class="col-md-9">
+	                        <input type="text" class="form-control" name="lastName" placeholder="Last Name" ng-model="user.lastName">
+	                    </div>
+	                </div>
+	                    
+	                <!-- Email  -->
+	                <div class="form-group" ng-class="{ 'has-error': signupform.userEmail.$dirty && signupform.userEmail.$error.required && signupform.userEmail.$error.email}">
+	                    <label for="email" class="col-md-3 control-label">Email</label>
+	                    <div class="col-md-9">
+	                        <input type="email" class="form-control" name="userEmail" placeholder="Email Address" ng-model="user.email">
+	                    </div>
+	                </div>
+	                 
+	                 <!-- Password -->
+	                <div class="form-group" ng-class="{ 'has-error': signupform.password.$dirty && signupform.password.$error.required}">
+	                    <label for="password" class="col-md-3 control-label">Password</label>
+	                    <div class="col-md-9">
+	                        <input type="password" class="form-control" name="password" placeholder="Password" ng-model="user.password">
+	                    </div>
+	                </div>
+	                    
+	                <!-- Button -->
+	                <div class="form-group">
+	                    <!-- Button -->                                        
+	                    <div class="col-md-offset-3 col-md-9 form-actions">
+	                        <button type="submit" class="btn btn-info" ng-disabled="signupform.$invalid || dataloading"><i class="icon-hand-right"></i> &nbsp Create</button>
+	                    </div>
+	                </div>
+	               
+	            </form>
+	         </div>
+	    </div>         
+    </div>
