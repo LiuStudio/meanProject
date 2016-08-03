@@ -1,6 +1,7 @@
-augular.module('MeanApp', ['ui.router'])
-.config(function($stateProvider, $urlRouterProvider){
+var myApp = augular.module('MeanApp', ['ui.router']);
 
+myApp.config(function($stateProvider, $urlRouterProvider){
+	$urlRouterProvider.otherwise('/');
 	$stateProvider
 		.state('app',{
 			url  : '/',
@@ -9,7 +10,7 @@ augular.module('MeanApp', ['ui.router'])
 					templateUrl : 'views/header.html'
 				},
 				'content':{
-					templateUrl : "views/home.html"
+					templateUrl : "views/home.html",
 					controller  : "HomeController"
 				},
 				'footer' :{
@@ -22,7 +23,7 @@ augular.module('MeanApp', ['ui.router'])
 			url  : 'aboutus',
 			views:{
 				'content@':{
-					templateUrl : "views/aboutus.html"
+					templateUrl : "views/aboutus.html",
 					controller  : "AboutUsController"
 				}
 			}
@@ -31,7 +32,7 @@ augular.module('MeanApp', ['ui.router'])
 			url  : 'login',
 			views:{
 				'content@':{
-					templateUrl : "views/login.html"
+					templateUrl : "views/login.html",
 					controller  : "LoginController"
 				}
 			}
@@ -41,7 +42,7 @@ augular.module('MeanApp', ['ui.router'])
 			url  : 'signup',
 			views:{
 				'content@':{
-					templateUrl : "views/signup.html"
+					templateUrl : "views/signup.html",
 					controller  : "SignupController"
 				}
 			}
@@ -50,10 +51,10 @@ augular.module('MeanApp', ['ui.router'])
 			url  : 'profile',
 			views:{
 				'content@':{
-					templateUrl : "views/profile.html"
+					templateUrl : "views/profile.html",
 					controller  : "ProfileController"
 				}
 			}
-		})
+		});
 
 });

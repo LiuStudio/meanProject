@@ -9,15 +9,11 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var sourcemaps = require('gulp-sourcemaps');
 var clean = require('gulp-clean');
-var notify = require('gulp-notify');
-var livereload = require('gulp-livereload');
-var lr = require('tiny-lr');
-var server = lr();
 
-// gulp.task('clean', function(){
-//     return gulp.src('app_client/**/*.js')
-//     .pipe(clean());
-// })
+gulp.task('clean', function(){
+    return gulp.src('app_client/**/*.js')
+    .pipe(clean());
+})
 // Lint Task
 gulp.task('lint', function() {
     return gulp.src('./app_client/**/*.js')
@@ -34,22 +30,15 @@ gulp.task('lint', function() {
 
 // Concatenate & Minify JS
 gulp.task('scripts', function() {
-    gulp.src(['./app_client/**/*.js', '!./app_client/app.min.js'])
-        //.pipe(sourcemaps.init())
-            .pipe(jshint())
-            .pipe(jshint.reporter('default'))
-            .pipe(concat('all.js'))
-            .pipe(gulp.dest('dist'))
-            .pipe(rename({suffix: '.min'}))
-            .pipe(uglify().on('error', function(e){
+    gulp.src(['./app_client/**/*.js', '!./app_client/**/*.test.js','!./app_client/app.min.js'])
+        .pipe(sourcemaps.init())
+            .pipe(concat('./app_client/app.min.js'))
+            .pipe(uglify({mangle:true}).on('error', function(e){
                  console.log(e);
              }))
-            .pipe(livereload(server))
-            .pipe(gulp.dest('dist'))
-            .pipe(notify({message: 'Scripts task complete'}));
-            
-        //.pipe(sourcemaps.write('./'))
-        //.pipe(gulp.dest('app_client'));
+            .pipe(gulp.dest('app_client'))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('app_client'));
 });
 
 // Watch Files For Changes
