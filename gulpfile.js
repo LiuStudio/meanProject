@@ -34,7 +34,7 @@ gulp.task('lint', function() {
 
 // Concatenate & Minify JS
 gulp.task('scripts', function() {
-    gulp.src(['./app_client/**/*.js', '!./app_client/app.min.js'])
+    gulp.src(['./app_client/**/*.js'])
         //.pipe(sourcemaps.init())
             .pipe(jshint())
             .pipe(jshint.reporter('default'))
