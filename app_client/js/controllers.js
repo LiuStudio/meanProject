@@ -35,8 +35,8 @@ angular.module('MeanApp')
 					})
 				.error(function(err){
 						console.log("Registraion failed: "+ err.message);
-						alert("Registraion failed: "+ err.message);
-						$location.path("/signup");
+						//alert("Registraion failed: "+ err.message);
+						//$location.path("/signup");
 						$scope.dataloading = false;
 					});		
 			};

@@ -1,6 +1,6 @@
 angular.module('MeanApp')
-		.constant('baseURL',"http://localhost:3000/")
-		.service('authentication', ['$http', 'baseURL', '$window', function($http, baseURL, $window){
+		//.constant('baseURL',"http://localhost:3000/")
+		.service('authentication', ['$http', '$window', function($http, mywindow){
 			console.log('Running authentication');
 			
 			var _user={};
@@ -10,22 +10,23 @@ angular.module('MeanApp')
 			};
 			
 			var getToken=function(token){
-				return $window.localstorage['mean-app-token'];
+				return mywindow.localStorage['mean-app-token'];
 			};
 
 
 			var removeToken = function(){
-				$window.localstorage.removeItem('mean-app-token');
+				mywindow.localStorage.removeItem('mean-app-token');
 			};
 			
 			var saveToken=function(token){
-				$window.localstorage['mean-app-token'] = token;
+				mywindow.localStorage['mean-app-token'] = token;
 			};
 			
 			var register = function(user){
 				console.log(user);
 				return $http.post('/api/register', user)
 				.success(function(data){
+					console.log("data is "+data);
 					saveToken(data.token);
 				});	
 				
@@ -44,7 +45,7 @@ angular.module('MeanApp')
 				 var payload = '';
 				  if (token){
 			  		 payload = token.split('.')[1];
-					 payload = $window.atob(payload);
+					 payload = mywindow.atob(payload);
 					 payload = JSON.parse(payload);
 				  }
 				  return payload;
