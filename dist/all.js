@@ -6,8 +6,9 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 		.state('app',{
 			url  : '/',
 			views:{
-				'header' : {
-					templateUrl : 'view/header.html'
+				'header@' : {
+					templateUrl : 'view/header.html',
+					controller  : "NavController"
 				},
 				'content':{
 					templateUrl : "view/home.html",
@@ -22,6 +23,10 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 		.state('app.aboutus',{
 			url  : 'aboutus',
 			views:{
+				'header@' : {
+					templateUrl : 'view/header.html',
+					controller  : "NavController"
+				},
 				'content@':{
 					templateUrl : "view/aboutus.html",
 					controller  : "AboutUsController"
@@ -31,6 +36,10 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 		.state('app.login',{
 			url  : 'login',
 			views:{
+				'header@' : {
+					templateUrl : 'view/header.html',
+					controller  : "NavController"
+				},
 				'content@':{
 					templateUrl : "view/login.html",
 					controller  : "LoginController"
@@ -41,6 +50,10 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 		.state('app.signup',{
 			url  : 'signup',
 			views:{
+				'header@' : {
+					templateUrl : 'view/header.html',
+					controller  : "NavController"
+				},
 				'content@':{
 					templateUrl : "view/signup.html",
 					controller  : "SignupController"
@@ -50,6 +63,10 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 		.state('app.profile',{
 			url  : 'profile',
 			views:{
+				'header@' : {
+					templateUrl : 'view/header.html',
+					controller  : "NavController"
+				},
 				'content@':{
 					templateUrl : "view/profile.html",
 					controller  : "ProfileController"
@@ -63,6 +80,20 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 
 angular.module('MeanApp')
 		
+		.controller('NavController', ['$scope', 'authentication', '$location', function($scope, authentication, $location){
+			console.log('Running NavController');
+			$scope.isLoggedIn = authentication.isLoggedIn();
+			$scope.user = authentication.getUser();
+			console.log("isloggedin is "+ $scope.isLoggedIn);
+			$scope.login = function(){
+				console.log("this is not implemented yet");
+			};
+			$scope.logout = function(){
+				authentication.logout();
+				$location.path('/');
+			};
+		}])
+
 		.controller('HomeController', ['$scope', function($scope){
 			console.log('Running HomeController');
 		}])
@@ -96,8 +127,8 @@ angular.module('MeanApp')
 					})
 				.error(function(err){
 						console.log("Registraion failed: "+ err.message);
-						//alert("Registraion failed: "+ err.message);
-						//$location.path("/signup");
+						alert("Registraion failed: "+ err.message);
+						$location.path("/signup");
 						$scope.dataloading = false;
 					});		
 			};
@@ -105,8 +136,26 @@ angular.module('MeanApp')
 			
 		}])
 
-		.controller('ProfileController', ['$scope', function($scope){
+		.controller('ProfileController', ['$scope', 'authentication', 'userProfilesvc', '$location', function($scope, authentication, userProfilesvc, $location){
 			console.log('Running ProfileController');
+			
+			var tokenValid = authentication.isLoggedIn();
+			
+			
+			if (tokenValid){
+				userProfilesvc.getProfile()
+				.success(function(data){
+					$scope.user = data;
+				})
+				.error(function(err){
+					console.log(err);
+				});	
+			}
+			else{
+				console.log("User is no longer logged in");
+			}
+			$scope.tokenValid = tokenValid;
+		
 		}]);
 angular.module('MeanApp')
 		//.constant('baseURL',"http://localhost:3000/")
@@ -152,20 +201,23 @@ angular.module('MeanApp')
 			};
 
 			var parseToken = function(token){
-				 var payload = '';
+				 var base64Url = '';
+				 var base64 = '';
+				 var payload = "";
 				  if (token){
-			  		 payload = token.split('.')[1];
-					 payload = mywindow.atob(payload);
-					 payload = JSON.parse(payload);
+			  		 base64Url = token.split('.')[1];
+					 base64 = mywindow.atob(base64Url);
+					 payload = JSON.parse(base64);
 				  }
 				  return payload;
 			};
 
 			var isLoggedIn = function(){
 				var token = getToken();
-				var payload = parseToken(token);
-				if (payload){
-				   return (payload.exp > Date.now()/1000);			
+				var payload;
+				if(token){
+					payload = parseToken(token);
+					return (payload.exp > Date.now()/1000);
 				}else{
 					return false;
 				}
@@ -173,20 +225,16 @@ angular.module('MeanApp')
 			
 			var getUser = function(){
 				var token = getToken();
-				var payload = parseToken(token);
-				if (payload){
-				   return {
-				   	firstName: payload.firstName,
-				   	lastName:  payload.lastName,
-				   	email: 	   payload.email
-				   };			
-				}else{
+				var payload;
+				if (token){
+					payload = parseToken(token);
 					return {
-					firstName: "",
-				   	lastName:  "",
-				   	email: 	   ""
-					};
+				   		firstname: payload.firstname,
+				   		lastname:  payload.lastname,
+				   		email: 	   payload.email
+				   	};	
 				}
+				
 			};
 			
 			
@@ -206,6 +254,20 @@ angular.module('MeanApp')
 			this.parseToken = parseToken;
 			this.isLoggedIn = isLoggedIn;
 			this.getUser = getUser;
+			this.logout = logout;
 
 
-		}]);
+		}])
+
+	.service('userProfilesvc',['$http', 'authentication', function($http, authentication){
+		var getProfile = function(){
+			var token = authentication.getToken();
+			return $http.get('/api/profile',{
+				headers:{
+					Authorization: 'Bearer '+token
+				}
+			});
+		};
+
+		this.getProfile = getProfile;
+	}]);

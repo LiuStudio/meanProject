@@ -42,20 +42,23 @@ angular.module('MeanApp')
 			};
 
 			var parseToken = function(token){
-				 var payload = '';
+				 var base64Url = '';
+				 var base64 = '';
+				 var payload = "";
 				  if (token){
-			  		 payload = token.split('.')[1];
-					 payload = mywindow.atob(payload);
-					 payload = JSON.parse(payload);
+			  		 base64Url = token.split('.')[1];
+					 base64 = mywindow.atob(base64Url);
+					 payload = JSON.parse(base64);
 				  }
 				  return payload;
 			};
 
 			var isLoggedIn = function(){
 				var token = getToken();
-				var payload = parseToken(token);
-				if (payload){
-				   return (payload.exp > Date.now()/1000);			
+				var payload;
+				if(token){
+					payload = parseToken(token);
+					return (payload.exp > Date.now()/1000);
 				}else{
 					return false;
 				}
@@ -63,20 +66,16 @@ angular.module('MeanApp')
 			
 			var getUser = function(){
 				var token = getToken();
-				var payload = parseToken(token);
-				if (payload){
-				   return {
-				   	firstName: payload.firstName,
-				   	lastName:  payload.lastName,
-				   	email: 	   payload.email
-				   };			
-				}else{
+				var payload;
+				if (token){
+					payload = parseToken(token);
 					return {
-					firstName: "",
-				   	lastName:  "",
-				   	email: 	   ""
-					};
+				   		firstname: payload.firstname,
+				   		lastname:  payload.lastname,
+				   		email: 	   payload.email
+				   	};	
 				}
+				
 			};
 			
 			
@@ -96,6 +95,20 @@ angular.module('MeanApp')
 			this.parseToken = parseToken;
 			this.isLoggedIn = isLoggedIn;
 			this.getUser = getUser;
+			this.logout = logout;
 
 
-		}]);
+		}])
+
+	.service('userProfilesvc',['$http', 'authentication', function($http, authentication){
+		var getProfile = function(){
+			var token = authentication.getToken();
+			return $http.get('/api/profile',{
+				headers:{
+					Authorization: 'Bearer '+token
+				}
+			});
+		};
+
+		this.getProfile = getProfile;
+	}]);

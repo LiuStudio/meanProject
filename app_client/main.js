@@ -6,8 +6,9 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 		.state('app',{
 			url  : '/',
 			views:{
-				'header' : {
-					templateUrl : 'view/header.html'
+				'header@' : {
+					templateUrl : 'view/header.html',
+					controller  : "NavController"
 				},
 				'content':{
 					templateUrl : "view/home.html",
@@ -22,6 +23,10 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 		.state('app.aboutus',{
 			url  : 'aboutus',
 			views:{
+				'header@' : {
+					templateUrl : 'view/header.html',
+					controller  : "NavController"
+				},
 				'content@':{
 					templateUrl : "view/aboutus.html",
 					controller  : "AboutUsController"
@@ -31,6 +36,10 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 		.state('app.login',{
 			url  : 'login',
 			views:{
+				'header@' : {
+					templateUrl : 'view/header.html',
+					controller  : "NavController"
+				},
 				'content@':{
 					templateUrl : "view/login.html",
 					controller  : "LoginController"
@@ -41,6 +50,10 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 		.state('app.signup',{
 			url  : 'signup',
 			views:{
+				'header@' : {
+					templateUrl : 'view/header.html',
+					controller  : "NavController"
+				},
 				'content@':{
 					templateUrl : "view/signup.html",
 					controller  : "SignupController"
@@ -50,6 +63,10 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 		.state('app.profile',{
 			url  : 'profile',
 			views:{
+				'header@' : {
+					templateUrl : 'view/header.html',
+					controller  : "NavController"
+				},
 				'content@':{
 					templateUrl : "view/profile.html",
 					controller  : "ProfileController"

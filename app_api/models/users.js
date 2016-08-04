@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
-var secret = process.env.JWT_SECRET || "YOU_SHOULD_NOT_USE_THIS_AS_YOUR_SECRET";
+var config = require('../config/serverconfig');
+
 
 var userSchema = new mongoose.Schema({
 	firstname:{
@@ -31,7 +32,7 @@ userSchema.methods.generateJwt = function(){
 		firstname: this.firstname,
 		lastname: this.lastname,
 		exp: parseInt(expiry.getTime() /1000)
-	}, secret);
+	}, config.secret);
 
 	return token;
 };

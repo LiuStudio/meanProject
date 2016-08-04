@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
 var gracefulShutdown;
-const dbURL = 'mongodb://localhost/meanApp';
+var config = require('../config/serverconfig')
+
+var dbURL = config.dbURL;
+
 mongoose.connect(dbURL);
 
 // CONNECTION EVENTS
