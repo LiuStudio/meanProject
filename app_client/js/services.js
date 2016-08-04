@@ -5,15 +5,25 @@ angular.module('MeanApp')
 			
 			var _user={};
 
-			this.setUser = function(user){
+			var setUser = function(user){
 				_user = user;
+			};
+			
+			var getToken=function(token){
+				return $window.localstorage['mean-app-token'];
+			};
+
+
+			var removeToken = function(){
+				$window.localstorage.removeItem('mean-app-token');
 			};
 			
 			var saveToken=function(token){
 				$window.localstorage['mean-app-token'] = token;
 			};
 			
-			this.register = function(user){
+			var register = function(user){
+				console.log(user);
 				return $http.post('/api/register', user)
 				.success(function(data){
 					saveToken(data.token);
@@ -22,7 +32,7 @@ angular.module('MeanApp')
 			};
 
 
-			this.login = function(user){
+			var login = function(user){
 				return $http.post('/api/login', user)
 				.success(function(data){
 					saveToken(data.token);
@@ -30,7 +40,7 @@ angular.module('MeanApp')
 				
 			};
 
-			this.parseToken = function(token){
+			var parseToken = function(token){
 				 var payload = '';
 				  if (token){
 			  		 payload = token.split('.')[1];
@@ -40,7 +50,7 @@ angular.module('MeanApp')
 				  return payload;
 			};
 
-			this.isLoggedIn = function(){
+			var isLoggedIn = function(){
 				var token = getToken();
 				var payload = parseToken(token);
 				if (payload){
@@ -50,7 +60,7 @@ angular.module('MeanApp')
 				}
 			};
 			
-			this.getUser = function(){
+			var getUser = function(){
 				var token = getToken();
 				var payload = parseToken(token);
 				if (payload){
@@ -70,20 +80,21 @@ angular.module('MeanApp')
 			
 			
 
-			this.getToken=function(token){
-				return $window.localstorage['mean-app-token'];
-			};
+		
 
-
-			this.removeToken = function(){
-				$window.localstorage.removeItem('mean-app-token');
-			};
-
-			this.logout = function(){
+			var logout = function(){
 				removeToken();
 			};
 
-
+			this.setUser = setUser;
+			this.getToken = getToken;
+			this.removeToken = removeToken;
+			this.saveToken = saveToken;
+			this.register = register;
+			this.login = login;
+			this.parseToken = parseToken;
+			this.isLoggedIn = isLoggedIn;
+			this.getUser = getUser;
 
 
 		}]);
