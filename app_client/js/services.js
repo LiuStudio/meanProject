@@ -8,20 +8,25 @@ angular.module('MeanApp')
 			this.setUser = function(user){
 				_user = user;
 			};
-
+			
+			var saveToken=function(token){
+				$window.localstorage['mean-app-token'] = token;
+			};
+			
 			this.register = function(user){
 				return $http.post('/api/register', user)
 				.success(function(data){
 					saveToken(data.token);
-				})	
+				});	
 				
 			};
+
 
 			this.login = function(user){
 				return $http.post('/api/login', user)
 				.success(function(data){
 					saveToken(data.token);
-				})	
+				});	
 				
 			};
 
@@ -33,7 +38,7 @@ angular.module('MeanApp')
 					 payload = JSON.parse(payload);
 				  }
 				  return payload;
-			}
+			};
 
 			this.isLoggedIn = function(){
 				var token = getToken();
@@ -43,7 +48,7 @@ angular.module('MeanApp')
 				}else{
 					return false;
 				}
-			}
+			};
 			
 			this.getUser = function(){
 				var token = getToken();
@@ -53,7 +58,7 @@ angular.module('MeanApp')
 				   	firstName: payload.firstName,
 				   	lastName:  payload.lastName,
 				   	email: 	   payload.email
-				   }			
+				   };			
 				}else{
 					return {
 					firstName: "",
@@ -61,11 +66,9 @@ angular.module('MeanApp')
 				   	email: 	   ""
 					};
 				}
-			}
-			
-			this.saveToken=function(token){
-				$window.localstorage['mean-app-token'] = token;
 			};
+			
+			
 
 			this.getToken=function(token){
 				return $window.localstorage['mean-app-token'];
@@ -77,8 +80,8 @@ angular.module('MeanApp')
 			};
 
 			this.logout = function(){
-				removeToken;
-			}
+				removeToken();
+			};
 
 
 
