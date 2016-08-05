@@ -6,9 +6,22 @@ angular.module('MeanApp')
 			console.log('Running NavController');
 			$scope.isLoggedIn = authentication.isLoggedIn();
 			$scope.user = authentication.getUser();
+			$scope.userlogin={
+				email: "",
+				password: ""
+			};
 			console.log("isloggedin is "+ $scope.isLoggedIn);
 			$scope.login = function(){
-				console.log("this is not implemented yet");
+				authentication.login($scope.userlogin)
+				.success(function(data){
+					console.log("Login Successful!");
+					$location.path('/profile');
+				})
+				.error(function(err){
+					console.log("Login failed: "+ err.message);
+					alert("Login failed: "+ err.message);
+					$location.path("/login");
+				});
 			};
 			$scope.logout = function(){
 				authentication.logout();
@@ -24,8 +37,28 @@ angular.module('MeanApp')
 			console.log('Running AboutusController');
 		}])
 
-		.controller('LoginController', ['$scope', function($scope){
+		.controller('LoginController', ['$scope', 'authentication', '$location', function($scope, authentication, $location){
 			console.log('Running LoginController');
+			$scope.userlogin={
+				email: "",
+				password: ""
+			};
+			$scope.dataloading = false;
+			$scope.login = function(){
+				$scope.dataloading = true;
+				authentication.login($scope.userlogin)
+				.success(function(data){
+					console.log("Login Successful!");
+					$location.path('/profile');
+				})
+				.error(function(err){
+					console.log("Login failed: "+ err.message);
+					alert("Login failed: "+ err.message);
+					$location.path("/login");
+					$scope.dataloading = false;
+				});
+			};
+
 		}])
 		
 		.controller('SignupController', ['$scope', '$location','authentication',function($scope, $location, authentication){

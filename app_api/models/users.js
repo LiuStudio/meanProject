@@ -44,7 +44,8 @@ userSchema.methods.setPassword = function(password){
 };
 
 userSchema.methods.validPassword = function(password){
-	var curhash = cypto.pbkdf2Sync(passowrd, this.salt, 1000, 64).toString('hex');
+	console.log("inside user schema validpassword password is "+password);
+	var curhash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
 	return curhash == this.hash;
 }
 

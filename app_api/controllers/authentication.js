@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var passport = require('passport');
 var User = mongoose.model('User');
 
 
@@ -31,4 +32,26 @@ module.exports.register = function(req, res){
 		});
 	});
 
+};
+
+module.exports.login = function(req,res){
+	passport.authenticate('local', function(err, user, info){
+		var token;
+		
+		if (err){
+			res.status(404).json(err);
+			return;
+		}
+
+		if(user){
+			token = user.generateJwt();
+			res.status(200)
+				.json({"token":token});				
+		}else{
+
+			res.status(401).json(info);
+		}
+	})(req,res);
+
+	
 };

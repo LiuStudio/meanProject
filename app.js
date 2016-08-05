@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var passport = require('passport');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -8,7 +9,8 @@ var bodyParser = require('body-parser');
 
 require('./app_api/config/serverconfig');
 require('./app_api/models/db');
-require('./app_api/models/users')
+require('./app_api/config/passportconfig');
+//require('./app_api/models/users')
 
 var routesApi = require('./app_api/routes/index');
 
@@ -26,6 +28,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'app_client')));
 
+app.use(passport.initialize());
+
 app.use('/api', routesApi);
 
 app.use(function(req, res) {
@@ -42,6 +46,14 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
+
+// Catch unauthorised errors
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.status(401);
+    res.json({"message" : err.name + ": " + err.message});
+  }
+});
 
 // development error handler
 // will print stacktrace
