@@ -10,7 +10,7 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 					templateUrl : 'view/header.html',
 					controller  : "NavController"
 				},
-				'content':{
+				'content@':{
 					templateUrl : "view/home.html",
 					controller  : "HomeController"
 				},
@@ -80,7 +80,7 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 
 angular.module('MeanApp')
 		
-		.controller('NavController', ['$scope', 'authentication', '$location', function($scope, authentication, $location){
+		.controller('NavController', ['$scope', 'authentication', '$location', '$state', '$stateParams', function($scope, authentication, $location, $state, $stateParams){
 			console.log('Running NavController');
 			$scope.isLoggedIn = authentication.isLoggedIn();
 			$scope.user = authentication.getUser();
@@ -93,7 +93,13 @@ angular.module('MeanApp')
 				authentication.login($scope.userlogin)
 				.success(function(data){
 					console.log("Login Successful!");
-					$location.path('/profile');
+					console.log("state name is "+ $state.current.name);
+				
+				    if ($state.is('app.profile')){
+						$state.reload();
+					}else{
+						$location.path('/profile');
+					}
 				})
 				.error(function(err){
 					console.log("Login failed: "+ err.message);
@@ -103,7 +109,12 @@ angular.module('MeanApp')
 			};
 			$scope.logout = function(){
 				authentication.logout();
-				$location.path('/');
+				if ($state.is('app')){
+						$state.reload();
+					}else{
+						$location.path('/');
+					}
+				
 			};
 		}])
 

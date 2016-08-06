@@ -10,7 +10,7 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 					templateUrl : 'view/header.html',
 					controller  : "NavController"
 				},
-				'content':{
+				'content@':{
 					templateUrl : "view/home.html",
 					controller  : "HomeController"
 				},
