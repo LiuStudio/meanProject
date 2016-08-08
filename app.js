@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var passport = require('passport');
+//var https = require('https');
+//var fs = require('fs');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -10,11 +12,14 @@ var bodyParser = require('body-parser');
 require('./app_api/config/serverconfig');
 require('./app_api/models/db');
 require('./app_api/config/passportconfig');
-//require('./app_api/models/users')
+
+
 
 var routesApi = require('./app_api/routes/index');
 
 var app = express();
+
+//var server = https.creatServer(sslOption, app);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

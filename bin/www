@@ -6,7 +6,8 @@
 
 var app = require('../app');
 var debug = require('debug')('meanProject:server');
-var http = require('http');
+var https = require('https');
+var fs = require('fs');
 
 /**
  * Get port from environment and store in Express.
@@ -18,7 +19,12 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
+var sslOption = {
+  key: fs.readFileSync(__dirname+'/private.key'),
+  certs: fs.readFileSync(__dirname+'/certificate.pem')
+};
 
+var secureServer = https.createServer(sslOption, app);
 var server = http.createServer(app);
 
 /**
