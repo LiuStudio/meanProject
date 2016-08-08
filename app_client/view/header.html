@@ -14,7 +14,7 @@
               <ul class="nav navbar-nav">
                 <li><a ui-sref="app">Home</a></li>
                 <li><a ui-sref="app.aboutus">About</a></li>
-                <li><a ui-sref="app.signup">Signup</a></li>
+                <li ng-show = "!isLoggedIn"><a ui-sref="app.signup">Signup</a></li>
                 <li><a ui-sref="app.profile">Profile</a></li>
               </ul>
               <div ng-show = "!isLoggedIn">
