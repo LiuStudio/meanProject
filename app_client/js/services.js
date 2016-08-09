@@ -41,6 +41,14 @@ angular.module('MeanApp')
 				
 			};
 
+			var loginFacebook = function(){
+				console.log("at frontend service , get api/facebook")
+				return $http.get('api/facebook')
+				.success(function(data){
+					saveToken(data.token);
+				});
+			};
+
 			var parseToken = function(token){
 				 var base64Url = '';
 				 var base64 = '';
@@ -74,7 +82,7 @@ angular.module('MeanApp')
 				   		lastname:  payload.lastname,
 				   		email: 	   payload.email
 				   	};	
-				}
+				} 
 				
 			};
 			
@@ -96,6 +104,7 @@ angular.module('MeanApp')
 			this.isLoggedIn = isLoggedIn;
 			this.getUser = getUser;
 			this.logout = logout;
+			this.loginFacebook = loginFacebook;
 
 
 		}])

@@ -1,6 +1,16 @@
 var mongoose = require('mongoose');
 var passport = require('passport');
 var User = mongoose.model('User');
+var jwt = require('express-jwt');
+var serverconfig = require('../config/serverconfig');
+
+module.exports.jwtAuth = function(){
+	return jwt({
+	secret: serverconfig.secret,
+	userProperty: 'payload'
+});
+};
+
 
 
 module.exports.register = function(req, res){
@@ -55,3 +65,32 @@ module.exports.login = function(req,res){
 
 	
 };
+
+module.exports.facebook = function(){
+	console.log("inside authCtrl.facebook, calling passport authenticate facebook")
+    passport.authenticate('facebook');
+};
+
+module.exports.facebookCallback = function(req, res, done){
+	passport.authenticate('facebook', function(err, user, info){
+		if (err){
+			res.status(404).json(err);
+			return;
+		}
+		if(!user){
+			//this shouldn't happen, since the passportconfig 
+			//should already taken care of this scenario
+			res.status(401).json("message: Couldn not log user in");
+		}else{
+		//no err, user is good, generate token, and login user
+		// Not using req.login that passport provide, because i am 
+		//not using session for user, i am using token, so use my own 
+		//login function
+		token = user.generateJwt();
+		res.status(200)
+				.json({"token": token});
+			}
+
+	})(req, res,done);
+};
+		

@@ -70,6 +70,19 @@ angular.module('MeanApp')
 				});
 			};
 
+			$scope.loginFacebook = function(){
+				authentication.loginFacebook()
+					.success(function(data){
+						console.log("Login Successful!");
+						$location.path('/profile');
+					})
+					.error(function(err){
+						console.log("Login failed:"+err);
+						alert("Login failed "+ err);
+						$location.path("/login");
+					});
+			};	
+
 		}])
 		
 		.controller('SignupController', ['$scope', '$location','authentication',function($scope, $location, authentication){

@@ -18,7 +18,9 @@ var userSchema = new mongoose.Schema({
 		required: true
 	},
 	hash: String,
-	salt: String
+	salt: String,
+	OauthId: String,
+	OauthToken: String
 });
 
 userSchema.methods.generateJwt = function(){
