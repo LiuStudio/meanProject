@@ -48,7 +48,12 @@ angular.module('MeanApp')
 			console.log('Running AboutusController');
 		}])
 
-		.controller('LoginController', ['$scope', 'authentication', '$location', function($scope, authentication, $location){
+		.controller('LoginFacebookController', ['$scope','$stateChangeSuccess','authentication', function($scope,$stateChangeSuccess,authentication){
+			$scope.$on('$stateChangeSuccess', function () {
+	  			authentication.saveToken(res.data);
+			});
+		}])
+		.controller('LoginController', ['$scope', 'authentication', '$location', '$window', function($scope, authentication, $location,$window){
 			console.log('Running LoginController');
 			$scope.userlogin={
 				email: "",
@@ -71,16 +76,18 @@ angular.module('MeanApp')
 			};
 
 			$scope.loginFacebook = function(){
-				authentication.loginFacebook()
-					.success(function(data){
-						console.log("Login Successful!");
-						$location.path('/profile');
-					})
-					.error(function(err){
-						console.log("Login failed:"+err);
-						alert("Login failed "+ err);
-						$location.path("/login");
-					});
+				$window.location = $window.location.protocol + "//" + $window.location.host + $window.location.pathname + "api/facebook";
+				//authentication.loginFacebook()
+					//$location.path('api/facebook');
+					// .success(function(data){
+					// 	console.log("Login Successful!");
+					// 	$location.path('/profile');
+					// })
+					// .error(function(err){
+					// 	console.log("Login failed:"+err);
+					// 	alert("Login failed "+ err);
+					// 	$location.path("/login");
+					// });
 			};	
 
 		}])

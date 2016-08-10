@@ -1,0 +1,21 @@
+<div>
+    <div class = "container" ng-show = "tokenValid">
+
+    <h1>Welcome to the MEAN community {{user.firstname}}</h1>
+    <table>
+        <tr>
+            <td>Name: {{user.firstname}} {{user.lastname}}</td>
+            
+        </tr>
+        <tr>
+            <td>Email: {{user.email}}</td>
+        </tr>
+    </table>
+
+    </div>
+
+    <div class = "container" ng-show = "!tokenValid">
+        <h1>You are not logged in, Please <a ui-sref = "app.login">Log in</a> or <a ui-sref = "app.signup">Sign UP!</a></h1>
+
+    </div>
+</div>

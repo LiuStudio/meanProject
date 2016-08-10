@@ -43,7 +43,7 @@ function(accessToken, refreshToken, profile, done){
     if (err){return done(err);}
     if(!user){
             user = new User();
-            user.email= profile.email;
+            user.email= profile._json.email;
             user.firstname= profile._json.first_name;
             user.lastname= profile._json.last_name;
             user.OauthId = profile.id;

@@ -8,7 +8,7 @@ var passport = require('passport');
 router.get('/profile', authCtrl.jwtAuth, profileCtrl.profileGET);
 router.post('/register', authCtrl.register);
 router.post('/login', authCtrl.login);
-router.get('/facebook', passport.authenticate('facebook'));
+router.get('/facebook', passport.authenticate('facebook',{scope:'email'}));
 router.get('/facebook/callback', authCtrl.facebookCallback);
 
 module.exports = router;

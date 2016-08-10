@@ -46,6 +46,19 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 				}
 			}
 		})
+		.state('app.facebook',{
+			url  : 'facebooklogin',
+			views:{
+				'header@' : {
+					templateUrl : 'view/header.html',
+					controller  : "NavController"
+				},
+				'content@':{
+					templateUrl : "view/loginfacebook.html",
+					controller  : "LoginFacebookController"
+				}
+			}
+		})
 
 		.state('app.signup',{
 			url  : 'signup',
