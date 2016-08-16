@@ -124,9 +124,10 @@ angular.module('MeanApp')
 		this.getProfile = getProfile;
 	}])
 
-	 .service('ClientInterceptor',['$rootScope', '$window', function($rootScope, $window) {
+	 .service('ClientInterceptor',['$rootScope', '$window', '$q', function($rootScope, $window, $q) {
         var service = this;
         service.request = function(config) { 
+        	console.log('clientintercepter request, request is '+JSON.stringify(config));
         // var currentUser = UserService.getCurrentUser(),
         //     access_token = currentUser ? currentUser.access_token : null;
         // if (access_token) {
@@ -136,8 +137,8 @@ angular.module('MeanApp')
     };
 
          service.response = function(response) {
-    		console.log('clientInterceptor response, response header is '+JSON.stringify(response));
-    		console.log('clientInterceptor response, response header location is '+response.headers()['Location']);
+    		
+    		
         if (response.headers('Location')) {
         	console.log('clientInterceptor response, ready to redirect response.headers location is '+response.headers('Location'));
         $window.location = response.headers('Location');
@@ -147,14 +148,14 @@ angular.module('MeanApp')
     };
     
          service.responseError = function(response) {
-    		console.log('clientInterceptor response error response header is '+JSON.stringify(response));
-    		console.log('clientInterceptor response error, response header location is '+response.headers()['Location']);
+    		console.log('clientInterceptor response error response is '+JSON.stringify(response));
+    		
         if (response.headers('Location')) {
         	console.log('clientInterceptor, ready to redirect response.headers location is '+response.headers('Location'));
         $window.location = response.headers('Location');
         }
 
-        return response;
+        return $q.reject(response);
     };
     
     }])
