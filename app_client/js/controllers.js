@@ -80,7 +80,8 @@ angular.module('MeanApp')
 				    authentication.loginFacebook()
 					//$location.path('api/facebook');
 					 .success(function(data){
-					 	console.log("Login Successful!");
+					 	console.log("in controller.loginFacebook Login Successful!");
+					 	console.log(JSON.stringify(data));
 					 	$location.path('/profile');
 					 })
 					 .error(function(err){

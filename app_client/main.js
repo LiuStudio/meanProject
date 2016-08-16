@@ -1,6 +1,6 @@
 var myApp = angular.module('MeanApp', ['ui.router']);
 
-myApp.config(function($stateProvider, $urlRouterProvider){
+myApp.config(function($stateProvider, $urlRouterProvider, $httpProvider){
 	$urlRouterProvider.otherwise('/');
 	$stateProvider
 		.state('app',{
@@ -86,5 +86,5 @@ myApp.config(function($stateProvider, $urlRouterProvider){
 				}
 			}
 		});
-
+		$httpProvider.interceptors.push('ClientInterceptor');
 });

@@ -122,4 +122,39 @@ angular.module('MeanApp')
 		};
 
 		this.getProfile = getProfile;
-	}]);
+	}])
+
+	 .service('ClientInterceptor',['$rootScope', '$window', function($rootScope, $window) {
+        var service = this;
+        service.request = function(config) { 
+        // var currentUser = UserService.getCurrentUser(),
+        //     access_token = currentUser ? currentUser.access_token : null;
+        // if (access_token) {
+        //     config.headers.authorization = access_token;
+        // }
+        return config;
+    };
+
+         service.response = function(response) {
+    		console.log('clientInterceptor response, response header is '+JSON.stringify(response));
+    		console.log('clientInterceptor response, response header location is '+response.headers()['Location']);
+        if (response.headers('Location')) {
+        	console.log('clientInterceptor response, ready to redirect response.headers location is '+response.headers('Location'));
+        $window.location = response.headers('Location');
+        }
+
+        return response;
+    };
+    
+         service.responseError = function(response) {
+    		console.log('clientInterceptor response error response header is '+JSON.stringify(response));
+    		console.log('clientInterceptor response error, response header location is '+response.headers()['Location']);
+        if (response.headers('Location')) {
+        	console.log('clientInterceptor, ready to redirect response.headers location is '+response.headers('Location'));
+        $window.location = response.headers('Location');
+        }
+
+        return response;
+    };
+    
+    }])
