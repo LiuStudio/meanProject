@@ -76,18 +76,18 @@ angular.module('MeanApp')
 			};
 
 			$scope.loginFacebook = function(){
-				$window.location = $window.location.protocol + "//" + $window.location.host + $window.location.pathname + "api/facebook";
-				//authentication.loginFacebook()
+				//$window.location = $window.location.protocol + "//" + $window.location.host + $window.location.pathname + "api/facebook";
+				    authentication.loginFacebook()
 					//$location.path('api/facebook');
-					// .success(function(data){
-					// 	console.log("Login Successful!");
-					// 	$location.path('/profile');
-					// })
-					// .error(function(err){
-					// 	console.log("Login failed:"+err);
-					// 	alert("Login failed "+ err);
-					// 	$location.path("/login");
-					// });
+					 .success(function(data){
+					 	console.log("Login Successful!");
+					 	$location.path('/profile');
+					 })
+					 .error(function(err){
+					 	console.log("Login failed:"+err);
+					 	alert("Login failed "+ err);
+					 	$location.path("/login");
+					 });
 			};	
 
 		}])

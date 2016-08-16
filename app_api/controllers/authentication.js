@@ -88,10 +88,10 @@ module.exports.facebookCallback = function(req, res, done){
 		//login function
 		token = user.generateJwt();
 
-		// res.status(200)
-		// 		.json({"token": token});
-		// 	
-		res.redirect('https://localhost:3543/facebooklogin/?token=' + token);
+		 res.status(200)
+		 		.json({"token": token});
+		 	
+		//res.redirect('https://localhost:3543/facebooklogin/?token=' + token);
 	   }
 	})(req, res,done);
 };

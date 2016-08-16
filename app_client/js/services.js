@@ -41,15 +41,15 @@ angular.module('MeanApp')
 				
 			};
 
-			// var loginFacebook = function(){
-			// 	console.log("at frontend service , get api/facebook");
+			 var loginFacebook = function(){
+			 	console.log("at frontend service , get api/facebook");
 				
    //              //($window.location = $window.location.protocol + "//" + $window.location.host + $window.location.pathname + "api/facebook")
-
-			// 	.success(function(data){
-			// 		saveToken(data.token);
-			// 	});
-			// };
+   				return $http.get('/api/facebook')
+			 	.success(function(data){
+			 		saveToken(data.token);
+			 	});
+			 };
 
 			var parseToken = function(token){
 				 var base64Url = '';
@@ -106,7 +106,7 @@ angular.module('MeanApp')
 			this.isLoggedIn = isLoggedIn;
 			this.getUser = getUser;
 			this.logout = logout;
-			//this.loginFacebook = loginFacebook;
+			this.loginFacebook = loginFacebook;
 
 
 		}])
